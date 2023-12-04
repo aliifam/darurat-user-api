@@ -1,0 +1,943 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Darurat Android Rest API",
+    "version": "1.0.0",
+    "description": "Dokumentasi Rest API untuk aplikasi Darurat"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Local server"
+    },
+    {
+      "url": "https://darurat-api.appspot.com",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "ambulan",
+      "description": "Endpoint untuk Operasi data ambulan, rumah sakit, puskesmas, klinik"
+    },
+    {
+      "name": "faskes",
+      "description": "Endpoint untuk mendapatkan data fasilitas kesehatan"
+    },
+    {
+      "name": "polisi",
+      "description": "Endpoint untuk mendapatkan data polisi"
+    },
+    {
+      "name": "pemadam",
+      "description": "Endpoint untuk mendapatkan data pemadam kebakaran"
+    },
+    {
+      "name": "chat",
+      "description": "Endpoint untuk chating realtime dengan Bot Machine Learning"
+    }
+  ],
+  "paths": {
+    "/faskes": {
+      "get": {
+        "summary": "Mendapatkan data list tempat faskes",
+        "tags": ["faskes"],
+        "description": "Mengembalikan data list tempat fasilitas kesehatan",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "description": "Longitude",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius pencarian",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Tipe tempat ambulan",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["rs", "puskesmas", "klinik"]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit data",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "bpjs",
+            "in": "query",
+            "description": "Jika true maka hanya menampilkan faskes yang menerima bpjs",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sukses Mendapatkan data faskes",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 1,
+                      "nama": "Rumah Sakit Umum Daerah Dr. Soetomo",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "type": ["rumah sakit"],
+                      "distance": 1000,
+                      "bpjs": true
+                    },
+                    {
+                      "id": 2,
+                      "nama": "Rumah Sakit Umum Daerah Dr. Soetomo",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "type": ["rumah sakit"],
+                      "distance": 1500,
+                      "bpjs": false
+                    },
+                    {
+                      "id": 3,
+                      "nama": "Rumah Sakit Umum Daerah Dr. Soetomo",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "type": ["rumah sakit"],
+                      "distance": 2000,
+                      "bpjs": true
+                    },
+                    {
+                      "id": 4,
+                      "nama": "Ambulan Masjid Al-Akbar Surabaya",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "type": ["ambulan"],
+                      "distance": 2500,
+                      "bpjs": false
+                    },
+                    {
+                      "id": 5,
+                      "nama": "Ambulan Sekolah Tinggi Ilmu Kesehatan Hang Tuah Surabaya",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "type": ["ambulan"],
+                      "distance": 3000
+                    },
+                    {
+                      "id": 6,
+                      "nama": "Puskesmas Jagir",
+                      "alamat": "Jl. Jagir Wonokromo No. 100, Jagir, Wonokromo, Kota SBY, Jawa Timur 60244",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "type": ["puskesmas", "ambulan"],
+                      "distance": 3500,
+                      "bpjs": true
+                    },
+                    {
+                      "id": 7,
+                      "nama": "Klinik Medika Utama",
+                      "alamat": "Jl. Jagir Wonokromo No. 100, Jagir, Wonokromo, Kota SBY, Jawa Timur 60244",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "type": ["klinik", "ambulan"],
+                      "distance": 4000,
+                      "bpjs": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permintaan tidak valid cek kembali parameter yang dikirim"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data tidak ditemukan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Data tidak ditemukan perluas radius pencarian"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Maaf terjadi kesalahan pada server"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/faskes/:id": {
+      "get": {
+        "summary": "Mendapatkan data detail faskes",
+        "description": "Mengembalikan data detail faskes",
+        "tags": ["faskes"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID tempat",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sukses Mendapatkan data detail faskes",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": {
+                    "id": 1,
+                    "nama": "Rumah Sakit Umum Daerah Dr. Soetomo",
+                    "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                    "lat": -7.2795,
+                    "lon": 112.795,
+                    "telp": "(031) 5501078",
+                    "whatsapp": "6281234567890",
+                    "website": "https://rsudrsoetomo.jatimprov.go.id/",
+                    "type": ["rumah sakit"],
+                    "email": "rssoetomo@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permintaan tidak valid cek kembali parameter yang dikirim"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data tidak ditemukan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Data tidak ditemukan"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Maaf terjadi kesalahan pada server"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ambulan": {
+      "get": {
+        "summary": "Mendapatkan data list ambulan",
+        "tags": ["ambulan"],
+        "description": "Mengembalikan data list tempat ambulan",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "description": "Longitude",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius pencarian",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit data",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "free",
+            "in": "query",
+            "description": "Jika true maka hanya menampilkan ambulan yang gratis",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "enum": ["true", "false"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sukses Mendapatkan data list ambulan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 1,
+                      "nama": "Ambulan 1 Rumah Sakit Umum Daerah Dr. Soetomo",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 1000,
+                      "free": true
+                    },
+                    {
+                      "id": 2,
+                      "nama": "Ambulan 2 Rumah Sakit Umum Daerah Dr. Soetomo",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 1500,
+                      "free": false
+                    },
+                    {
+                      "id": 3,
+                      "nama": "Ambulan 3 Rumah Sakit Umum Daerah Dr. Soetomo",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 2000,
+                      "free": true
+                    },
+                    {
+                      "id": 4,
+                      "nama": "Ambulan Masjid Al-Akbar Surabaya",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 2500,
+                      "free": false
+                    },
+                    {
+                      "id": 5,
+                      "nama": "Ambulan Sekolah Tinggi Ilmu Kesehatan Hang Tuah Surabaya",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 3000,
+                      "free": true
+                    },
+                    {
+                      "id": 6,
+                      "nama": "Ambulan Puskesmas Jagir",
+                      "alamat": "Jl. Jagir Wonokromo No. 100, Jagir, Wonokromo, Kota SBY, Jawa Timur 60244",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 3500,
+                      "free": true
+                    },
+                    {
+                      "id": 7,
+                      "nama": "Ambulan Klinik Medika Utama",
+                      "alamat": "Jl. Jagir Wonokromo No. 100, Jagir, Wonokromo, Kota SBY, Jawa Timur 60244",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 4000,
+                      "free": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permintaan tidak valid cek kembali parameter yang dikirim"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data tidak ditemukan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Data tidak ditemukan perluas radius pencarian"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Maaf terjadi kesalahan pada server"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ambulan/:id": {
+      "get": {
+        "summary": "Mendapatkan data detail ambulan",
+        "description": "Mengembalikan data detail ambulan",
+        "tags": ["ambulan"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID ambulan",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sukses Mendapatkan data detail ambulan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": {
+                    "id": 1,
+                    "nama": "Ambulan 1 Rumah Sakit Umum Daerah Dr. Soetomo",
+                    "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286",
+                    "lat": -7.2795,
+                    "lon": 112.795,
+                    "telp": "(031) 5501078",
+                    "whatsapp": "6281234567890"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permintaan tidak valid cek kembali parameter yang dikirim"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data tidak ditemukan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Data tidak ditemukan"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Maaf terjadi kesalahan pada server"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/polisi": {
+      "get": {
+        "summary": "Mendapatkan data list polisi",
+        "tags": ["polisi"],
+        "description": "Mengembalikan data list tempat polisi",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "description": "Longitude",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius pencarian",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit data",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sukses Mendapatkan data list polisi",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 1,
+                      "nama": "Polsek Gubeng",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 1000
+                    },
+                    {
+                      "id": 2,
+                      "nama": "Polsek Mulyorejo",
+                      "alamat": "Jl. Mulyorejo Baru No.1, Mulyorejo, Kec. Mulyorejo, Kota SBY",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 1500
+                    },
+                    {
+                      "id": 3,
+                      "nama": "Polres Surabaya Selatan",
+                      "alamat": "Jl. Raya Darmo No.66, Wonokromo, Kec. Wonokromo, Kota SBY",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 2000
+                    },
+                    {
+                      "id": 4,
+                      "nama": "Polda Jawa Timur",
+                      "alamat": "Jl. Ahmad Yani No.85, Embong Kaliasin, Kec. Genteng, Kota SBY",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 2500
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permintaan tidak valid cek kembali parameter yang dikirim"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data tidak ditemukan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Data tidak ditemukan perluas radius pencarian"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Maaf terjadi kesalahan pada server"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/polisi/:id": {
+      "get": {
+        "summary": "Mendapatkan data detail polisi",
+        "description": "Mengembalikan data detail polisi",
+        "tags": ["polisi"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID polisi",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sukses Mendapatkan data detail polisi",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": {
+                    "id": 1,
+                    "nama": "Polsek Gubeng",
+                    "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY",
+                    "lat": -7.2795,
+                    "lon": 112.795,
+                    "telp": "(031) 5501078",
+                    "whatsapp": "6281234567890",
+                    "email": "polsek-gubeng@polda-jatim.go.id",
+                    "website": "https://polsek-gubeng.polda-jatim.go.id/"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permintaan tidak valid cek kembali parameter yang dikirim"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data tidak ditemukan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Data tidak ditemukan"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Maaf terjadi kesalahan pada server"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pemadam": {
+      "get": {
+        "summary": "Mendapatkan data list pemadam kebakaran",
+        "tags": ["pemadam"],
+        "description": "Mengembalikan data list tempat pemadam kebakaran",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "description": "Longitude",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius pencarian",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit data",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sukses Mendapatkan data list pemadam kebakaran",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": [
+                    {
+                      "id": 1,
+                      "nama": "Pemadam Kebakaran sektor 1 Surabaya Barat",
+                      "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 1000
+                    },
+                    {
+                      "id": 2,
+                      "nama": "Pemadam Kebakaran sektor 2 Surabaya Barat",
+                      "alamat": "Jl. Mulyorejo Baru No.1, Mulyorejo, Kec. Mulyorejo, Kota SBY",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 1500
+                    },
+                    {
+                      "id": 3,
+                      "nama": "Pemadam Kebakaran sektor 3 Surabaya Barat",
+                      "alamat": "Jl. Raya Darmo No.66, Wonokromo, Kec. Wonokromo, Kota SBY",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 2000
+                    },
+                    {
+                      "id": 4,
+                      "nama": "Pemadam Kebakaran sektor 4 Surabaya Barat",
+                      "alamat": "Jl. Ahmad Yani No.85, Embong Kaliasin, Kec. Genteng, Kota SBY",
+                      "lat": -7.2795,
+                      "lon": 112.795,
+                      "distance": 2500
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permintaan tidak valid cek kembali parameter yang dikirim"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data tidak ditemukan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Data tidak ditemukan perluas radius pencarian"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Maaf terjadi kesalahan pada server"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pemadam/:id": {
+      "get": {
+        "summary": "Mendapatkan data detail pemadam kebakaran",
+        "description": "Mengembalikan data detail pemadam kebakaran",
+        "tags": ["pemadam"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID pemadam kebakaran",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sukses Mendapatkan data detail pemadam kebakaran",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": {
+                    "id": 1,
+                    "nama": "Pemadam Kebakaran sektor 1 Surabaya Barat",
+                    "alamat": "Jl. Mayjen Prof. Dr. Moestopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY",
+                    "lat": -7.2795,
+                    "lon": 112.795,
+                    "telp": "(031) 5501078",
+                    "whatsapp": "6281234567890",
+                    "email": "pemadam-sektor-1@surabaya-selatan.go.id",
+                    "website": "https://pemadam-sektor-1.surabaya-selatan.go.id"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Permintaan tidak valid cek kembali parameter yang dikirim"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data tidak ditemukan",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Data tidak ditemukan"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Maaf terjadi kesalahan pada server"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chat": {
+      "post": {
+        "summary": "Mengirim Pesan Obrolan",
+        "description": "Mengirim pesan obrolan ke bot machine learning",
+        "tags": ["chat"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "Pesan yang dikirim",
+                    "example": "Bagaimana penanganan pertama pada penderita serangan jantung?"
+                  }
+                },
+                "required": ["message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Balasan dari bot machine learning",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": {
+                    "message": "Pertolongan pertama pada penderita serangan jantung adalah dengan memberikan obat nitrogliserin di bawah lidah. Obat ini akan membantu melebarkan pembuluh darah jantung sehingga aliran darah ke jantung menjadi lebih lancar. Selain itu, obat ini juga dapat mengurangi rasa nyeri pada dada. Jika rasa nyeri tidak kunjung hilang, segera hubungi ambulans terdekat."
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Permintaan tidak valid"
+          },
+          "500": {
+            "description": "Terjadi kesalahan server"
+          }
+        }
+      }
+    }
+  }
+}
