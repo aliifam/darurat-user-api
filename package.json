@@ -6,7 +6,8 @@
   "main": "src/app.js",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "deploy": "gcloud app deploy"
+    "deploy": "gcloud app deploy",
+    "start": "node src/app.js"
   },
   "keywords": [],
   "author": "",
