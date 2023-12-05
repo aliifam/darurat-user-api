@@ -68,6 +68,8 @@ export const getNearFaskes = async (req, res) => {
     });
     // order the faskes by distance from the user
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      message: "internal server error",
+    });
   }
 };

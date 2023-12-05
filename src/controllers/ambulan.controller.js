@@ -1,7 +1,7 @@
 import pool from "../config/db.js";
 import { haversine } from "../utils/index.js";
 
-export const getNearAmbulan = async (req, res) => {
+export const getNearAmbulans = async (req, res) => {
   //get query parameters if not any give default param
   const { lat, lon, radius = 10000 } = req.query;
 
@@ -59,5 +59,9 @@ export const getNearAmbulan = async (req, res) => {
       message: "success",
       data: orderedAmbulan,
     });
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({
+      message: "internal server error",
+    });
+  }
 };
