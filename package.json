@@ -1,7 +1,7 @@
 {
   "name": "darurat-user-be",
   "version": "1.0.0",
-  "description": "",
+  "description": "api untuk konsumsi aplikasi android darurat user",
   "type": "module",
   "main": "src/app.js",
   "scripts": {
