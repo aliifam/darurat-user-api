@@ -5,11 +5,11 @@ export const getAllFaskes = async (req, res) => {
   const { lat, lon, radius = 5000 } = req.query;
 
   //if lat or lon not given return error
-  // if (!lat || !lon) {
-  //   return res.status(400).json({
-  //     message: "lat or lon not provided",
-  //   });
-  // }
+  if (!lat || !lon) {
+    return res.status(400).json({
+      message: "lat or lon not provided",
+    });
+  }
 
   //get all faskes from database
   try {
