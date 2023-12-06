@@ -4,6 +4,9 @@
   "description": "api untuk konsumsi aplikasi android darurat user",
   "type": "module",
   "main": "src/app.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "nodemon src/app.js",
     "deploy": "gcloud app deploy",
