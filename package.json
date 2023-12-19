@@ -9,7 +9,6 @@
   },
   "scripts": {
     "dev": "nodemon src/app.js",
-    "deploy": "gcloud app deploy",
     "start": "node src/app.js"
   },
   "keywords": [],
